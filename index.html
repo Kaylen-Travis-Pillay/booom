@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Paper JS Exercise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/styles/main-style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.8/howler.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.11.5/paper-full.min.js"></script>
+    <script src="assets/js/main-script.js"></script>
+    <script type="text/paperscript" canvas="mycanvas">
+        var max_point = new Point(
+            view.bounds.width,
+            view.bounds.height
+        );
+
+        var circle_radius = 300;
+
+        var circles = [];
+
+        var sounds = new Howl({
+            src: ['sounds/clay.mp3']
+        });
+
+        function onKeyDown(event){
+            var circle_location = max_point * Point.random();
+            var circle = new Path.Circle(
+                circle_location,
+                circle_radius
+            );
+            sounds.play();
+            circle.fillColor = "red";
+            circles.push(circle);
+        }
+
+        function onFrame(event){
+            for(var i = 0; i < circles.length; i++){
+                if(circles[i].area <= 1){
+                    circles[i].remove();
+                    circles.splice(i, 1);
+                    i--;
+                }else{
+                    circles[i].fillColor.hue += 1;
+                    circles[i].scale(0.9);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="mycanvas" resize></canvas>
+</body>
+</html>
