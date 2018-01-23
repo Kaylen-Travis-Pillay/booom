@@ -19,19 +19,17 @@
 
         var circles = [];
 
-        var sounds = new Howl({
-            src: ['sounds/clay.mp3']
-        });
-
         function onKeyDown(event){
-            var circle_location = max_point * Point.random();
-            var circle = new Path.Circle(
-                circle_location,
-                circle_radius
-            );
-            sounds.play();
-            circle.fillColor = "red";
-            circles.push(circle);
+            if(booom_data[event.key]){
+                var circle_location = max_point * Point.random();
+                var circle = new Path.Circle(
+                    circle_location,
+                    circle_radius
+                );
+                booom_data[event.key].sound.play();
+                circle.fillColor = booom_data[event.key].color;
+                circles.push(circle);
+            }
         }
 
         function onFrame(event){
